@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kolasam — Cosplay Costumes & 3D Printing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#15181B;
+    --surface:#1D2226;
+    --surface-2:#242A2F;
+    --border:#2D3339;
+    --text:#ECEAE2;
+    --text-muted:#9BA1A6;
+    --accent:#FF6B2C;
+    --accent-dim:#8A4322;
+    --cyan:#4FD1E0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.wordmark{font-family:'Space Grotesk',sans-serif;}
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+  ::selection{background:var(--accent);color:#15181B;}
+
+  /* focus visibility */
+  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+    outline:2px solid var(--cyan);
+    outline-offset:3px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(21,24,27,0.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 28px;max-width:1120px;margin:0 auto;
+  }
+  .wordmark{
+    font-size:1.15rem;font-weight:700;letter-spacing:0.02em;
+    display:flex;align-items:center;gap:10px;
+  }
+  .wordmark .dot{width:8px;height:8px;background:var(--accent);border-radius:50%;display:inline-block;}
+  .nav-links{display:flex;gap:32px;align-items:center;}
+  .nav-links a{font-size:0.92rem;color:var(--text-muted);transition:color .15s;}
+  .nav-links a:hover{color:var(--text);}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:11px 20px;border-radius:6px;
+    font-size:0.92rem;font-weight:600;
+    border:1px solid transparent;cursor:pointer;
+  }
+  .btn-primary{background:var(--accent);color:#171311;}
+  .btn-primary:hover{background:#ff7d47;}
+  .btn-ghost{border-color:var(--border);color:var(--text);}
+  .btn-ghost:hover{border-color:var(--text-muted);}
+  .menu-toggle{display:none;background:none;border:0;color:var(--text);font-size:1.4rem;cursor:pointer;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:96px 0 80px;
+    display:grid;grid-template-columns:1.15fr 0.85fr;gap:56px;align-items:center;
+  }
+  .kicker{
+    display:inline-flex;align-items:center;gap:8px;
+    color:var(--cyan);font-size:0.85rem;font-weight:500;
+    margin-bottom:20px;
+  }
+  .kicker .bar{width:20px;height:1px;background:var(--cyan);}
+  .hero h1{
+    font-size:3.4rem;line-height:1.06;font-weight:700;
+    max-width:16ch;letter-spacing:-0.01em;
+  }
+  .hero p.lede{
+    margin-top:22px;color:var(--text-muted);font-size:1.08rem;max-width:46ch;
+  }
+  .hero-ctas{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap;}
+
+  .spec-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:10px;
+    padding:26px;position:relative;overflow:hidden;
+  }
+  .spec-card::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:22px 22px;
+    opacity:0.35;
+    mask-image:linear-gradient(to bottom, black, transparent 80%);
+  }
+  .spec-row{position:relative;display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:0.88rem;}
+  .spec-row:last-child{border-bottom:none;}
+  .spec-row span:first-child{color:var(--text-muted);}
+  .spec-status{
+    display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-weight:600;
+  }
+  .spec-status .pulse{
+    width:7px;height:7px;border-radius:50%;background:var(--accent);
+    box-shadow:0 0 0 0 rgba(255,107,44,0.6);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(255,107,44,0.5);}
+    70%{box-shadow:0 0 0 8px rgba(255,107,44,0);}
+    100%{box-shadow:0 0 0 0 rgba(255,107,44,0);}
+  }
+  .spec-title{position:relative;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:14px;}
+
+  /* one orchestrated load-in */
+  .reveal{opacity:0;transform:translateY(14px);animation:rise .7s ease forwards;}
+  .reveal:nth-child(1){animation-delay:.05s;}
+  .reveal:nth-child(2){animation-delay:.15s;}
+  .reveal:nth-child(3){animation-delay:.25s;}
+  @keyframes rise{to{opacity:1;transform:none;}}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{animation:none;opacity:1;transform:none;}
+    .pulse{animation:none;}
+  }
+
+  /* ---------- SECTION HEADERS ---------- */
+  section{padding:88px 0;border-top:1px solid var(--border);}
+  .section-head{max-width:56ch;margin-bottom:52px;}
+  .section-head .kicker{margin-bottom:14px;}
+  .section-head h2{font-size:2.1rem;font-weight:600;letter-spacing:-0.01em;}
+  .section-head p{color:var(--text-muted);margin-top:12px;font-size:1.02rem;}
+
+  /* ---------- SERVICES ---------- */
+  .services-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;
+  }
+  .service{
+    background:var(--surface);padding:34px 30px;
+  }
+  .service .icon{width:34px;height:34px;color:var(--accent);margin-bottom:20px;}
+  .service h3{font-size:1.08rem;font-weight:600;margin-bottom:10px;}
+  .service p{color:var(--text-muted);font-size:0.94rem;}
+
+  /* ---------- PROCESS ---------- */
+  .process-list{display:flex;flex-direction:column;}
+  .process-item{
+    display:grid;grid-template-columns:64px 1fr;gap:24px;
+    padding:26px 0;border-top:1px solid var(--border);
+  }
+  .process-item:first-child{border-top:none;}
+  .process-num{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:600;color:var(--accent-dim);}
+  .process-item h3{font-size:1.12rem;font-weight:600;margin-bottom:6px;}
+  .process-item p{color:var(--text-muted);font-size:0.96rem;max-width:56ch;}
+
+  /* ---------- GALLERY ---------- */
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .gallery-item{
+    aspect-ratio:4/5;border-radius:10px;position:relative;overflow:hidden;
+    border:1px solid var(--border);
+    display:flex;align-items:flex-end;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,107,44,0.16), transparent 55%),
+      repeating-linear-gradient(135deg, var(--surface-2) 0 2px, var(--surface) 2px 14px);
+  }
+  .gallery-item .tag{
+    position:relative;margin:16px;padding:8px 12px;
+    background:rgba(21,24,27,0.72);backdrop-filter:blur(4px);
+    border:1px solid var(--border);border-radius:6px;
+    font-size:0.82rem;color:var(--text);
+  }
+  .gallery-note{margin-top:18px;color:var(--text-muted);font-size:0.88rem;}
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:64px;}
+  .info-list{display:flex;flex-direction:column;gap:22px;margin-top:28px;}
+  .info-item{display:flex;gap:14px;align-items:flex-start;}
+  .info-item .icon{width:20px;height:20px;color:var(--cyan);flex-shrink:0;margin-top:2px;}
+  .info-item strong{display:block;font-size:0.96rem;}
+  .info-item span{color:var(--text-muted);font-size:0.9rem;}
+
+  form{display:flex;flex-direction:column;gap:16px;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  label{font-size:0.85rem;color:var(--text-muted);margin-bottom:6px;display:block;}
+  input,select,textarea{
+    width:100%;background:var(--surface);border:1px solid var(--border);
+    border-radius:6px;padding:12px 14px;color:var(--text);font-family:inherit;font-size:0.95rem;
+  }
+  input:focus,select:focus,textarea:focus{border-color:var(--cyan);}
+  textarea{resize:vertical;min-height:110px;}
+  .form-note{font-size:0.82rem;color:var(--text-muted);margin-top:6px;}
+  .form-success{
+    display:none;margin-top:6px;padding:12px 14px;border-radius:6px;
+    background:rgba(79,209,224,0.1);border:1px solid var(--cyan);color:var(--cyan);font-size:0.9rem;
+  }
+  .form-success.show{display:block;}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--border);padding:36px 0;}
+  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  footer .wordmark{font-size:1rem;}
+  footer p{color:var(--text-muted);font-size:0.85rem;}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .menu-toggle{display:block;}
+    .hero{grid-template-columns:1fr;padding:64px 0 56px;}
+    .hero h1{font-size:2.3rem;max-width:none;}
+    .services-grid{grid-template-columns:1fr 1fr;}
+    .contact-grid{grid-template-columns:1fr;gap:40px;}
+    .gallery{grid-template-columns:1fr 1fr;}
+    .form-row{grid-template-columns:1fr;}
+    section{padding:64px 0;}
+  }
+  @media (max-width:520px){
+    .services-grid{grid-template-columns:1fr;}
+    .gallery{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="#top" class="wordmark"><span class="dot"></span>KOLASAM</a>
+    <nav class="nav-links">
+      <a href="#services">Specialties</a>
+      <a href="#process">Process</a>
+      <a href="#work">Our Work</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="#contact" class="btn btn-primary">Get a Quote</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <div class="wrap hero">
+    <div>
+      <div class="kicker reveal"><span class="bar"></span>COSTUME BUILDS &amp; 3D PRINTING</div>
+      <h1 class="reveal">Costumes built like the character actually stepped through.</h1>
+      <p class="lede reveal">Kolasam designs and prints cosplay costumes, armor, and props from the ground up — sculpted digitally, printed in-house, finished by hand. If you can describe it, we can build it.</p>
+      <div class="hero-ctas reveal">
+        <a href="#contact" class="btn btn-primary">Start a Build</a>
+        <a href="#services" class="btn btn-ghost">See Our Specialties</a>
+      </div>
+    </div>
+
+    <div class="spec-card reveal">
+      <div class="spec-title">Current Job — Print Queue #114</div>
+      <div class="spec-row"><span>Piece</span><span>Chestplate, left pauldron</span></div>
+      <div class="spec-row"><span>Material</span><span>PLA+ / TPU trim</span></div>
+      <div class="spec-row"><span>Layer height</span><span>0.12 mm</span></div>
+      <div class="spec-row"><span>Finish</span><span>Primed, weathered</span></div>
+      <div class="spec-row"><span>Status</span><span class="spec-status"><span class="pulse"></span>In production</span></div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker"><span class="bar"></span>WHAT WE BUILD</div>
+        <h2>Six ways to bring a character to life</h2>
+        <p>Full costumes, single props, or just the parts your build is missing — each piece is modeled, printed, and finished specifically for you.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h12v4l-3 3v8a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-8L6 7V3Z"/><path d="M9 21h6"/></svg>
+          <h3>3D Printing</h3>
+          <p>Props, parts, and hard-surface pieces printed to spec in a range of materials, from display-grade resin detail to durable wearable PLA+.</p>
+        </div>
+        <div class="service">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3c1.5 1.6 2.4 3 2.4 4.5A2.4 2.4 0 0 1 12 9.9a2.4 2.4 0 0 1-2.4-2.4C9.6 6 10.5 4.6 12 3Z"/><path d="M5 12l3-2 4 2.5L16 10l3 2v9H5v-9Z"/></svg>
+          <h3>Full Costume Builds</h3>
+          <p>Screen-accurate or wholly original, built from reference to final fitting — armor, fabric, and accessories as one cohesive piece.</p>
+        </div>
+        <div class="service">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 9l8-5 8 5-8 5-8-5Z"/><path d="M4 9v7l8 5 8-5V9"/></svg>
+          <h3>Armor &amp; Props</h3>
+          <p>Helmets, gauntlets, weapons, and shields — sculpted for silhouette first, then engineered to actually survive a convention floor.</p>
+        </div>
+        <div class="service">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l2 2h8l2-2M6 3l-2 5 3 2v11h10V10l3-2-2-5"/></svg>
+          <h3>Custom Garments</h3>
+          <p>Bespoke jackets, capes, and structured pieces cut and sewn to your measurements — the fabric half of a build done properly.</p>
+        </div>
+        <div class="service">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20l4-1 10-10-3-3L5 16l-1 4Z"/><path d="M14 6l3-3 3 3-3 3"/></svg>
+          <h3>Painting &amp; Finishing</h3>
+          <p>Priming, airbrushing, weathering, and sealing — the pass that turns a raw print or a raw seam into something that reads as real.</p>
+        </div>
+        <div class="service">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v11H8l-4 4V5Z"/><path d="M8 10h8M8 13h5"/></svg>
+          <h3>Consultations</h3>
+          <p>Not sure what's feasible on your budget or timeline? Send references and we'll map out the most realistic way to build it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker"><span class="bar"></span>HOW A BUILD RUNS</div>
+        <h2>From reference images to finished costume</h2>
+        <p>Every commission runs through the same four stages, so you always know what's happening and when.</p>
+      </div>
+
+      <div class="process-list">
+        <div class="process-item">
+          <div class="process-num">01</div>
+          <div>
+            <h3>Send your references</h3>
+            <p>Share the character, event date, and any reference art or photos you have. The more detail, the tighter the final fit to your vision.</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">02</div>
+          <div>
+            <h3>We scope the build</h3>
+            <p>You get a breakdown of materials, a fixed quote, and a delivery date — including which parts are printed versus sewn.</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">03</div>
+          <div>
+            <h3>Printing &amp; construction</h3>
+            <p>Modeling, printing, sanding, sewing, and painting happen in-house, with progress photos sent at each major milestone.</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">04</div>
+          <div>
+            <h3>Fitting &amp; delivery</h3>
+            <p>Final adjustments, a fit check where possible, then it ships or you collect it — ready to wear the same week.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="work">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker"><span class="bar"></span>RECENT BUILDS</div>
+        <h2>A few pieces off the bench</h2>
+        <p>Swap these placeholders for real build photos — helmets, armor sets, and full costumes from recent commissions.</p>
+      </div>
+
+      <div class="gallery">
+        <div class="gallery-item"><span class="tag">Full armor set — finished</span></div>
+        <div class="gallery-item"><span class="tag">Helmet — 3D print, WIP</span></div>
+        <div class="gallery-item"><span class="tag">Gauntlet detail</span></div>
+        <div class="gallery-item"><span class="tag">Cape &amp; garment build</span></div>
+        <div class="gallery-item"><span class="tag">Prop weapon — painted</span></div>
+        <div class="gallery-item"><span class="tag">Full costume, event-ready</span></div>
+      </div>
+      <p class="gallery-note">Placeholder tiles — drop your own build photos in to replace these.</p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap contact-grid">
+      <div>
+        <div class="kicker"><span class="bar"></span>GET IN TOUCH</div>
+        <h2 style="font-size:2.1rem;font-weight:600;letter-spacing:-0.01em;">Let's spec out your build</h2>
+        <p style="color:var(--text-muted);margin-top:12px;">Send your idea, references, and deadline. We'll reply with a scope, a quote, and a straight answer on timeline.</p>
+
+        <div class="info-list">
+          <div class="info-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>
+            <div><strong>Based in your region</strong><span>Shipping and local collection both available</span></div>
+          </div>
+          <div class="info-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+            <div><strong>24–48 hour response</strong><span>Every enquiry gets a real reply, not an autoresponder</span></div>
+          </div>
+          <div class="info-item">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+            <div><strong>Free, no-obligation quotes</strong><span>Scoping and pricing cost you nothing upfront</span></div>
+          </div>
+        </div>
+      </div>
+
+      <form id="quote-form">
+        <div class="form-row">
+          <div>
+            <label for="name">Your name</label>
+            <input id="name" type="text" required>
+          </div>
+          <div>
+            <label for="email">Email address</label>
+            <input id="email" type="email" required>
+          </div>
+        </div>
+        <div>
+          <label for="project-type">Project type</label>
+          <select id="project-type">
+            <option>Select a category…</option>
+            <option>3D Printing</option>
+            <option>Full Costume Build</option>
+            <option>Armor / Prop</option>
+            <option>Custom Garment</option>
+            <option>Painting &amp; Finishing</option>
+            <option>Not sure — need advice</option>
+          </select>
+        </div>
+        <div>
+          <label for="details">Tell us about your project</label>
+          <textarea id="details" placeholder="Character, references, deadline, budget range…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="justify-content:center;">Send Enquiry</button>
+        <p class="form-note">We'll never share your details or send spam.</p>
+        <div class="form-success" id="form-success">Message sent — we'll be in touch soon.</div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <a href="#top" class="wordmark"><span class="dot"></span>KOLASAM</a>
+    <p>© 2026 Kolasam. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('quote-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    document.getElementById('form-success').classList.add('show');
+    this.reset();
+  });
+</script>
+
+</body>
+</html>
