@@ -34,13 +34,11 @@
   .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
   ::selection{background:var(--accent);color:#15181B;}
 
-  /* focus visibility */
   a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
     outline:2px solid var(--cyan);
     outline-offset:3px;
   }
 
-  /* ---------- HEADER ---------- */
   header{
     position:sticky;top:0;z-index:50;
     background:rgba(21,24,27,0.88);
@@ -71,7 +69,6 @@
   .btn-ghost:hover{border-color:var(--text-muted);}
   .menu-toggle{display:none;background:none;border:0;color:var(--text);font-size:1.4rem;cursor:pointer;}
 
-  /* ---------- HERO ---------- */
   .hero{
     padding:96px 0 80px;
     display:grid;grid-template-columns:1.15fr 0.85fr;gap:56px;align-items:center;
@@ -122,7 +119,6 @@
   }
   .spec-title{position:relative;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:14px;}
 
-  /* one orchestrated load-in */
   .reveal{opacity:0;transform:translateY(14px);animation:rise .7s ease forwards;}
   .reveal:nth-child(1){animation-delay:.05s;}
   .reveal:nth-child(2){animation-delay:.15s;}
@@ -133,14 +129,12 @@
     .pulse{animation:none;}
   }
 
-  /* ---------- SECTION HEADERS ---------- */
   section{padding:88px 0;border-top:1px solid var(--border);}
   .section-head{max-width:56ch;margin-bottom:52px;}
   .section-head .kicker{margin-bottom:14px;}
   .section-head h2{font-size:2.1rem;font-weight:600;letter-spacing:-0.01em;}
   .section-head p{color:var(--text-muted);margin-top:12px;font-size:1.02rem;}
 
-  /* ---------- SERVICES ---------- */
   .services-grid{
     display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
     background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;
@@ -152,7 +146,6 @@
   .service h3{font-size:1.08rem;font-weight:600;margin-bottom:10px;}
   .service p{color:var(--text-muted);font-size:0.94rem;}
 
-  /* ---------- PROCESS ---------- */
   .process-list{display:flex;flex-direction:column;}
   .process-item{
     display:grid;grid-template-columns:64px 1fr;gap:24px;
@@ -163,25 +156,29 @@
   .process-item h3{font-size:1.12rem;font-weight:600;margin-bottom:6px;}
   .process-item p{color:var(--text-muted);font-size:0.96rem;max-width:56ch;}
 
-  /* ---------- GALLERY ---------- */
   .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
   .gallery-item{
     aspect-ratio:4/5;border-radius:10px;position:relative;overflow:hidden;
     border:1px solid var(--border);
     display:flex;align-items:flex-end;
-    background:
-      radial-gradient(circle at 30% 20%, rgba(255,107,44,0.16), transparent 55%),
-      repeating-linear-gradient(135deg, var(--surface-2) 0 2px, var(--surface) 2px 14px);
+  }
+  .gallery-item img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    transition:transform .35s ease;
+  }
+  .gallery-item:hover img{transform:scale(1.04);}
+  .gallery-item::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(to top, rgba(15,17,19,0.85), rgba(15,17,19,0) 55%);
   }
   .gallery-item .tag{
-    position:relative;margin:16px;padding:8px 12px;
+    position:relative;z-index:1;margin:16px;padding:8px 12px;
     background:rgba(21,24,27,0.72);backdrop-filter:blur(4px);
     border:1px solid var(--border);border-radius:6px;
     font-size:0.82rem;color:var(--text);
   }
   .gallery-note{margin-top:18px;color:var(--text-muted);font-size:0.88rem;}
 
-  /* ---------- CONTACT ---------- */
   .contact-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:64px;}
   .info-list{display:flex;flex-direction:column;gap:22px;margin-top:28px;}
   .info-item{display:flex;gap:14px;align-items:flex-start;}
@@ -205,13 +202,11 @@
   }
   .form-success.show{display:block;}
 
-  /* ---------- FOOTER ---------- */
   footer{border-top:1px solid var(--border);padding:36px 0;}
   .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
   footer .wordmark{font-size:1rem;}
   footer p{color:var(--text-muted);font-size:0.85rem;}
 
-  /* ---------- RESPONSIVE ---------- */
   @media (max-width:860px){
     .nav-links{display:none;}
     .menu-toggle{display:block;}
@@ -246,7 +241,6 @@
 
 <main id="top">
 
-  <!-- HERO -->
   <div class="wrap hero">
     <div>
       <div class="kicker reveal"><span class="bar"></span>COSTUME BUILDS &amp; 3D PRINTING</div>
@@ -268,7 +262,6 @@
     </div>
   </div>
 
-  <!-- SERVICES -->
   <section id="services">
     <div class="wrap">
       <div class="section-head">
@@ -312,7 +305,6 @@
     </div>
   </section>
 
-  <!-- PROCESS -->
   <section id="process">
     <div class="wrap">
       <div class="section-head">
@@ -354,28 +346,26 @@
     </div>
   </section>
 
-  <!-- GALLERY -->
   <section id="work">
     <div class="wrap">
       <div class="section-head">
         <div class="kicker"><span class="bar"></span>RECENT BUILDS</div>
         <h2>A few pieces off the bench</h2>
-        <p>Swap these placeholders for real build photos — helmets, armor sets, and full costumes from recent commissions.</p>
+        <p>Helmets, armor sets, and full costumes from recent commissions.</p>
       </div>
 
       <div class="gallery">
-        <div class="gallery-item"><span class="tag">Full armor set — finished</span></div>
-        <div class="gallery-item"><span class="tag">Helmet — 3D print, WIP</span></div>
-        <div class="gallery-item"><span class="tag">Gauntlet detail</span></div>
-        <div class="gallery-item"><span class="tag">Cape &amp; garment build</span></div>
-        <div class="gallery-item"><span class="tag">Prop weapon — painted</span></div>
-        <div class="gallery-item"><span class="tag">Full costume, event-ready</span></div>
+        <div class="gallery-item"><img src="assets/build1.jpg" alt="Sculpted villain mask, 3D printed and finished"><span class="tag">3D-printed mask — finished</span></div>
+        <div class="gallery-item"><img src="assets/build2.jpg" alt="Ice-blue ball gown with snowflake embroidery"><span class="tag">Ice queen ball gown</span></div>
+        <div class="gallery-item"><img src="assets/build3.jpg" alt="Red fur costume piece"><span class="tag">Red fur costume build</span></div>
+        <div class="gallery-item"><img src="assets/build4.jpg" alt="3D sculpted knight character model"><span class="tag">Knight character — 3D sculpt</span></div>
+        <div class="gallery-item"><img src="assets/build5.jpg" alt="Blue and white embroidered hanfu-style robe"><span class="tag">Hanfu-style robe</span></div>
+        <div class="gallery-item"><img src="assets/build6.jpg" alt="Superman muscle suit with cape"><span class="tag">Superman suit build</span></div>
       </div>
-      <p class="gallery-note">Placeholder tiles — drop your own build photos in to replace these.</p>
+      <p class="gallery-note">A sample of recent commissions — full costumes, props, and 3D-sculpted pieces.</p>
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section id="contact">
     <div class="wrap contact-grid">
       <div>
@@ -451,4 +441,4 @@
 </script>
 
 </body>
-</html>
+  </html>
